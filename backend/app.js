@@ -1,32 +1,21 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const path = require("path");
-const router = require("./routes/index");
+const app = express();
+const recipeRouter = require("./routes/recipes");
 
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use CORS middleware
-app.use(
-  cors({
-    origin: "http://localhost:3001",
-  })
-);
-
-// Logging middleware for debugging
-app.use((req, res, next) => {
-  console.log("Request Fields:", req.body);
-  console.log("Files:", req.file);
-  next();
-});
+app.use(cors({ origin: "http://localhost:3001" }));
 
 // Serve static files from the uploads directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Use your routes
-app.use(router);
+app.use("/api", recipeRouter); // This mounts your routes under /api
 
 // Start the server
 const PORT = process.env.PORT || 3000;
