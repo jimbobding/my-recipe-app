@@ -54,3 +54,14 @@ export const updateRecipe = async (id, formData) => {
     throw error;
   }
 };
+
+// Function to delete a recipe by ID
+export const deleteRecipe = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/recipes/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting recipe:", error);
+    throw error;
+  }
+};
