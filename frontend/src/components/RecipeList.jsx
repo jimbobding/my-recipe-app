@@ -56,6 +56,7 @@ function RecipeList() {
             <Link to={`/edit/${recipe.id}`}>
               <button>Edit</button>
             </Link>
+
             <Link to={`/view/${recipe.id}`}>
               <button>View</button>
             </Link>

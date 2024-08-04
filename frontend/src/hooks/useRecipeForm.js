@@ -112,6 +112,7 @@ import {
   addRecipe,
   updateRecipe,
   deleteRecipe,
+  getRecipeById,
 } from "../services/api";
 
 function useRecipeForm() {
@@ -182,6 +183,19 @@ function useRecipeForm() {
     }
   };
 
+  const handleGetRecipeById = async (id) => {
+    try {
+      const recipe = await getRecipeById(id);
+      setTitle(recipe.title);
+      setIngredients(recipe.ingredients);
+      setInstructions(recipe.instructions);
+      setDescription(recipe.description);
+      setImageUrl(recipe.imageUrl);
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+    }
+  };
+
   return {
     title,
     ingredients,
@@ -199,6 +213,7 @@ function useRecipeForm() {
     handleSubmit,
     handleEdit,
     handleDelete,
+    handleGetRecipeById,
   };
 }
 

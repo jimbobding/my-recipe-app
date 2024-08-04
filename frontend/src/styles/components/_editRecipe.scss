@@ -2,19 +2,19 @@
 
 .edit-recipe-container {
   display: grid;
-  place-items: center; /* Centers content both horizontally and vertically */
-  height: 80vh; /* Adjust the height as needed */
+  place-items: center;
+  height: 80vh;
 }
 
 .edit-recipe-form {
-  width: 80%; /* Adjust the width as needed */
+  width: 80%;
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: grid;
   grid-gap: 20px;
-  grid-template-rows: auto auto 1fr; /* Define grid rows with first two rows auto-sized and last row taking up remaining space */
+  grid-template-rows: auto auto 1fr;
 }
 
 .edit-recipe-form input,
@@ -27,13 +27,6 @@
 }
 
 .edit-recipe-form button {
-  //   background-color: #4caf50;
-  //   color: white;
-  //   padding: 10px 20px;
-  //   border: none;
-  //   border-radius: 4px;
-  //   cursor: pointer;
-  //   font-size: 16px;
   @extend .button;
 }
 
