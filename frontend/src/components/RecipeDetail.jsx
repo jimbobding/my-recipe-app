@@ -23,28 +23,30 @@ function RecipeDetail() {
   if (!recipe) return <p>Loading...</p>;
 
   return (
-    <div className="recipe-detail">
-      <h1 className="recipe-title">{recipe.title}</h1>
-      {recipe.image_url && (
-        <img
-          src={`http://localhost:3000/uploads/${recipe.image_url.split("/").pop()}`}
-          alt={recipe.title}
-          className="recipe-detail-image"
-        />
-      )}
-      <div className="recipe-detail-content">
-        <p className="recipe-description">
-          <strong>Description:</strong> {recipe.description}
-        </p>
-        <div className="recipe-ingredients">
-          <p>
-            <strong>Ingredients:</strong> {recipe.ingredients}
+    <div className="recipe-detail-container">
+      <div className="recipe-detail">
+        <h1 className="recipe-title">{recipe.title}</h1>
+        {recipe.image_url && (
+          <img
+            src={`http://localhost:3000/uploads/${recipe.image_url.split("/").pop()}`}
+            alt={recipe.title}
+            className="recipe-detail-image"
+          />
+        )}
+        <div className="recipe-detail-content">
+          <p className="recipe-description">
+            <strong>Description:</strong> {recipe.description}
           </p>
-        </div>
-        <div className="recipe-instructions">
-          <p>
-            <strong>Instructions:</strong> {recipe.instructions}
-          </p>
+          <div className="recipe-ingredients">
+            <p>
+              <strong>Ingredients:</strong> {recipe.ingredients}
+            </p>
+          </div>
+          <div className="recipe-instructions">
+            <p>
+              <strong>Instructions:</strong> {recipe.instructions}
+            </p>
+          </div>
         </div>
       </div>
     </div>
