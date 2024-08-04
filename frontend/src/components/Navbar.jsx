@@ -15,6 +15,9 @@ function Navbar() {
         <li>
           <Link to="/add-recipe">Add Recipe</Link>
         </li>
+        <li>
+          <Link to="/add-user">Add User</Link>
+        </li>
       </ul>
     </nav>
   );

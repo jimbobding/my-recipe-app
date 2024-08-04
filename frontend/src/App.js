@@ -6,6 +6,7 @@ import RecipeListPage from "./pages/RecipeListPage";
 import EditRecipePage from "./pages/EditRecipePage";
 import RecipeDetail from "./components/RecipeDetail";
 import Navbar from "./components/Navbar";
+import AddUser from "./components/AddUser";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/add-recipe" element={<AddRecipePage />} />
+          <Route path="/add-user" element={<AddUser />} />
           <Route path="/recipes" element={<RecipeListPage />} />
           <Route path="/edit/:id" element={<EditRecipePage />} />
           <Route path="/view/:id" element={<RecipeDetail />} />
