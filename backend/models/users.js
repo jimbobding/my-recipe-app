@@ -4,6 +4,10 @@ const getAllUsers = (callback) => {
   db.query("SELECT * FROM users", callback);
 };
 
+const getUserById = (id, callback) => {
+  db.query("SELECT * FROM users WHERE id = ?", [id], callback);
+};
+
 const createUser = (username, password, image_url, weight, callback) => {
   const query =
     "INSERT INTO users (username, password, image_url, weight) VALUES (?, ?, ?, ?)";
@@ -35,4 +39,14 @@ const updateUser = (id, userData, callback) => {
   db.query(query, values, callback);
 };
 
-module.exports = { createUser, getAllUsers, updateUser };
+const deleteUser = (id, callback) => {
+  db.query("DELETE FROM users WHERE id = ?", [id], callback);
+};
+
+module.exports = {
+  createUser,
+  getAllUsers,
+  updateUser,
+  getUserById,
+  deleteUser,
+};

@@ -1,3 +1,4 @@
+const e = require("express");
 const usersModel = require("../models/users");
 const path = require("path");
 
@@ -6,7 +7,7 @@ exports.createUser = (req, res) => {
   const image_url = req.file ? req.file.path : null;
   console.log("Request Body:", req.body);
   console.log("Uploaded File Path:", image_url);
-  userModel.createUser(
+  usersModel.createUser(
     username,
     password,
     image_url,
@@ -35,6 +36,20 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
+exports.getUserById = (req, res) => {
+  const id = req.params.id;
+  usersModel.getUserById(id, (err, results) => {
+    if (err) {
+      console.error("Error fetching user:", err);
+      return res.status(500).send("Error fetching user");
+    }
+    if (results.length === 0) {
+      return res.status(404).send("User not found");
+    }
+    res.json(results[0]);
+  });
+};
+
 exports.updateUser = (req, res) => {
   const id = req.params.id;
   const { username, password, weight } = req.body;
@@ -53,5 +68,16 @@ exports.updateUser = (req, res) => {
       return res.status(500).send("Error updating user");
     }
     res.status(200).json({ message: "User updated successfully" });
+  });
+};
+
+exports.deleteUser = (req, res) => {
+  const id = req.params.id;
+  usersModel.deleteUser(id, (err) => {
+    if (err) {
+      console.error("Error deleting user:", err);
+      return res.status(500).send("Error deleting user");
+    }
+    res.status(200).json({ message: "User deleted successfully" });
   });
 };
