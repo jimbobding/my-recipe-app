@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Set the base URL for your backend API
-const API_URL = "http://localhost:3000/api";
+export const API_URL = "http://localhost:3000/api";
 
 // Function to get all recipes
 export const getAllRecipes = async () => {
@@ -62,6 +62,65 @@ export const deleteRecipe = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error deleting recipe:", error);
+    throw error;
+  }
+};
+
+//function to get all users
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/users`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+};
+
+//function to get user by id
+export const getUserById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+};
+
+//function to create a user
+export const createUser = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+//function to update a user
+export const updateUser = async (id, formData) => {
+  try {
+    const response = await axios.put(`${API_URL}/users/${id}`, formData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
+};
+
+//function to delete a user
+export const deleteUser = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
     throw error;
   }
 };
