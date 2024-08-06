@@ -25,8 +25,8 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Use your routes
-app.use("/api", recipeRouter);
-app.use("/api", userRouter);
+app.use("/api/recipes", recipeRouter);
+app.use("/api/users", userRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

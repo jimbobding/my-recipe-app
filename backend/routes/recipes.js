@@ -17,15 +17,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Define routes
-router.get("/recipes", recipeController.getAllRecipes);
-router.get("/recipes/:id", recipeController.getRecipeById);
-router.post("/recipes", upload.single("image"), recipeController.createRecipe);
-router.put(
-  "/recipes/:id",
-  upload.single("image"),
-  recipeController.updateRecipe
-);
-router.delete("/recipes/:id", recipeController.deleteRecipe);
+// Updated route paths to match the new server setup
+router.get("/", recipeController.getAllRecipes); // GET /api/recipes
+router.get("/:id", recipeController.getRecipeById); // GET /api/recipes/:id
+router.post("/", upload.single("image"), recipeController.createRecipe); // POST /api/recipes
+router.put("/:id", upload.single("image"), recipeController.updateRecipe); // PUT /api/recipes/:id
+router.delete("/:id", recipeController.deleteRecipe); // DELETE /api/recipes/:id
+
+// Optional route for uploading images if needed separately
 router.post(
   "/upload-image",
   upload.single("image"),
