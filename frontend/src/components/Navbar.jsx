@@ -18,6 +18,9 @@ function Navbar() {
         <li>
           <Link to="/add-user">Add User</Link>
         </li>
+        <li>
+          <Link to="/signin">Sign In</Link>
+        </li>
       </ul>
     </nav>
   );

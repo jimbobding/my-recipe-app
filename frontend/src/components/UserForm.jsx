@@ -28,6 +28,14 @@ const UserForm = ({ userId, onSuccess }) => {
     }
   }, [userId]);
 
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setWeight("");
+    setImage(null);
+    setIsEditing(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -49,10 +57,14 @@ const UserForm = ({ userId, onSuccess }) => {
         });
         alert("User created successfully!");
       }
+      resetForm();
       if (onSuccess) onSuccess(); // Callback to handle success
     } catch (error) {
-      console.error("Error submitting user:", error);
-      alert("Failed to submit user.");
+      console.error(
+        "Error submitting user:",
+        error.response ? error.response.data : error.message
+      );
+      alert(error.response ? error.response.data : "Failed to submit user.");
     }
   };
 
