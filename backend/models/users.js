@@ -44,7 +44,21 @@ const deleteUser = (id, callback) => {
 };
 
 const findByUsername = (username, callback) => {
-  db.query("SELECT * FROM users WHERE username = ?", [username], callback);
+  console.log("Querying for username:", username); // Log the username being queried
+
+  db.query(
+    "SELECT * FROM users WHERE username = ?",
+    [username],
+    (err, results) => {
+      if (err) {
+        console.error("Database query error:", err);
+        return callback(err);
+      }
+
+      console.log("Query Results:", results); // Log the results of the query
+      callback(null, results);
+    }
+  );
 };
 
 module.exports = {

@@ -4,8 +4,9 @@ const path = require("path");
 const app = express();
 const recipeRouter = require("./routes/recipes");
 const userRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 
-// Middleware to parse JSON and URL-encoded data
+// Middleware to parse JSON and URL-encoded data with custom limit
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -18,6 +19,8 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; img-src 'self' data:;"
   );
+  console.log("Request Headers:", req.headers);
+  console.log("Request Body:", req.body);
   next();
 });
 
@@ -27,7 +30,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Use your routes
 app.use("/api/recipes", recipeRouter);
 app.use("/api/users", userRouter);
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

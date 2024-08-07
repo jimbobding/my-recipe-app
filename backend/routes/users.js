@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
+const authController = require("../controllers/authController");
 const path = require("path");
 const multer = require("multer");
 
@@ -29,5 +30,7 @@ router.put("/:id", upload.single("image"), usersController.updateUser);
 
 // Delete a specific user by ID
 router.delete("/:id", usersController.deleteUser);
+
+// router.post("/signin", authController.signIn);
 
 module.exports = router;
