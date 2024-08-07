@@ -43,10 +43,15 @@ const deleteUser = (id, callback) => {
   db.query("DELETE FROM users WHERE id = ?", [id], callback);
 };
 
+const findByUsername = (username, callback) => {
+  db.query("SELECT * FROM users WHERE username = ?", [username], callback);
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   updateUser,
   getUserById,
   deleteUser,
+  findByUsername,
 };
