@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const UserForm = ({ userId, onSuccess }) => {
   const [username, setUsername] = useState("");
@@ -8,6 +10,8 @@ const UserForm = ({ userId, onSuccess }) => {
   const [weight, setWeight] = useState("");
   const [image, setImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userId) {
@@ -57,8 +61,10 @@ const UserForm = ({ userId, onSuccess }) => {
         });
         alert("User created successfully!");
       }
+      navigate("/login");
       resetForm();
       if (onSuccess) onSuccess(); // Callback to handle success
+      // navigate("/");
     } catch (error) {
       console.error(
         "Error submitting user:",
