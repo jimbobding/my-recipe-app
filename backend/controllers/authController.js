@@ -2,12 +2,13 @@ const usersModel = require("../models/users");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { host } = require("pg/lib/defaults");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.signIn = async (req, res) => {
   const { username, password } = req.body;
 
-  console.log("Request Body:", req.body); // Log the request body
+  console.log("Request Body:", req.body);
 
   try {
     // Retrieve the user by username
@@ -17,7 +18,7 @@ exports.signIn = async (req, res) => {
         return res.status(500).send("Internal server error");
       }
 
-      console.log("Database Results:", results); // Log database results
+      console.log("Database Results:", results);
 
       if (results.length === 0) {
         console.log("User not found");
@@ -40,10 +41,20 @@ exports.signIn = async (req, res) => {
         { expiresIn: "1h" }
       );
 
+      // Construct the full image URL
+      const imageUrl = user.image_url
+        ? `${req.protocol}://${req.get("host")}/uploads/${user.image_url}`
+        : null;
+
       // Send the token and user details in the response
       res.status(200).json({
         message: "Login successful",
-        user: { id: user.id, username: user.username },
+        user: {
+          id: user.id,
+          username: user.username,
+          image_url: imageUrl,
+          weight: user.weight,
+        },
         token,
       });
     });

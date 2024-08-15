@@ -19,8 +19,10 @@ const hashPassword = async (password) => {
 // Create user
 exports.createUser = async (req, res) => {
   const { username, password, weight } = req.body;
-  const image_url = req.file ? req.file.path : null;
-
+  const image_file = req.file; // Retrieve the file object from the request
+  const image_url = image_file ? path.basename(image_file.path) : null; // Store only the file name
+  // const image_url = "/uploads/test-image.png";
+  console.log("req.file", req.file);
   try {
     // Check if username already exists
     usersModel.findByUsername(username, async (err, results) => {
@@ -43,15 +45,21 @@ exports.createUser = async (req, res) => {
             console.error("Error creating user:", err);
             return res.status(500).send("Error creating user");
           }
+          // Construct the URL for the image
+          const imageUrl = image_url
+            ? `${req.protocol}://${req.get("host")}/uploads/${image_url}`
+            : null;
+
           res.status(201).json({
             message: "User created successfully",
             id: results.insertId,
-            imageUrl: image_url,
+            imageUrl: imageUrl, // Return the full URL
           });
         }
       );
     });
   } catch (error) {
+    console.error("Unexpected error:", error);
     res.status(500).send("Internal server error");
   }
 };
@@ -78,7 +86,21 @@ exports.getUserById = (req, res) => {
     if (results.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.json(results[0]);
+
+    const user = results[0];
+    const userWithCamelCase = {
+      id: user.id,
+      username: user.username,
+      password: user.password,
+      imageUrl: user.image_url
+        ? `${req.protocol}://${req.get("host")}/uploads/${user.image_url}`
+        : null,
+      weight: user.weight,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
+    };
+
+    res.json(userWithImageUrl);
   });
 };
 
@@ -86,13 +108,14 @@ exports.getUserById = (req, res) => {
 exports.updateUser = async (req, res) => {
   const id = req.params.id;
   const { username, password, weight } = req.body;
-  const image_url = req.file ? req.file.path : null;
+  const image_file = req.file ? req.file.path : null; // Retrieve the file path from the request
 
   const updateUser = {
     username,
     weight,
-    image_url,
+    image_url: image_file,
   };
+  // console.log("created image", imageUrl);
 
   if (password) {
     try {

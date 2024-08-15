@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use CORS middleware
-app.use(cors({ origin: "http://localhost:3001" }));
+app.use(cors({ origin: "*" }));
 
 // Middleware to set Content Security Policy
 app.use((req, res, next) => {
@@ -19,8 +19,7 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; img-src 'self' data:;"
   );
-  console.log("Request Headers:", req.headers);
-  console.log("Request Body:", req.body);
+
   next();
 });
 
