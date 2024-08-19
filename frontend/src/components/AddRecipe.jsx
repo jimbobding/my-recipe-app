@@ -32,6 +32,7 @@ function AddRecipe() {
             type="text"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
+            placeholder="Recipe Title"
           />
         </div>
         <div className="input-container">
@@ -39,6 +40,7 @@ function AddRecipe() {
           <textarea
             value={ingredients}
             onChange={(event) => setIngredients(event.target.value)}
+            placeholder="Enter ingredients separated by commas"
           />
         </div>
         <div className="input-container">
@@ -46,6 +48,7 @@ function AddRecipe() {
           <textarea
             value={instructions}
             onChange={(event) => setInstructions(event.target.value)}
+            placeholder="Enter instructions separated by commas"
           />
         </div>
         <div className="input-container">
@@ -53,11 +56,21 @@ function AddRecipe() {
           <textarea
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+            placeholder="Enter a description"
           />
         </div>
         <div className="input-container">
           <h3>Image</h3>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <label className="add-recipe__file-label" htmlFor="file-input">
+            Choose File
+          </label>
+          <input
+            id="file-input"
+            type="file"
+            accept="image/*"
+            className="add-recipe__file-input"
+            onChange={handleImageChange}
+          />
         </div>
         {imageUrl && (
           <div className="image-preview">

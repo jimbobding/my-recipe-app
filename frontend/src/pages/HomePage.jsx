@@ -5,7 +5,7 @@ const HomePage = () => {
   const { isLoggedIn } = useAuth();
   const [user, setUser] = useState(null);
   const defaultImageUrl = "/defaultProfilePic/smiley.jpeg";
-  const storedUser = localStorage.getItem("user");
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     console.log("Stored user from localStorage:", storedUser);
@@ -17,12 +17,8 @@ const HomePage = () => {
     }
   }, [isLoggedIn]);
 
-  console.log("stored user", storedUser.imgUrl);
-
   // Use the image URL from the user object or fall back to a default image
   const imageUrl = user?.image_url || defaultImageUrl;
-  console.log("Final image URL:", imageUrl);
-  // console.log("User object:", user.imageUrl);
 
   return (
     <div>

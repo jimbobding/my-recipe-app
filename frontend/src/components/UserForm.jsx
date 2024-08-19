@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/components/_userForm.scss";
 
 const UserForm = ({ userId, onSuccess }) => {
   const [username, setUsername] = useState("");
@@ -10,8 +11,9 @@ const UserForm = ({ userId, onSuccess }) => {
   const [weight, setWeight] = useState("");
   const [image, setImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const { register } = useAuth();
+
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   useEffect(() => {
     if (userId) {
@@ -22,7 +24,6 @@ const UserForm = ({ userId, onSuccess }) => {
           const user = response.data;
           setUsername(user.username);
           setWeight(user.weight);
-          // Handle image URL if needed
         } catch (error) {
           console.error("Error fetching user:", error);
         }
@@ -31,14 +32,6 @@ const UserForm = ({ userId, onSuccess }) => {
       fetchUser();
     }
   }, [userId]);
-
-  const resetForm = () => {
-    setUsername("");
-    setPassword("");
-    setWeight("");
-    setImage(null);
-    setIsEditing(false);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,21 +43,25 @@ const UserForm = ({ userId, onSuccess }) => {
     if (image) formData.append("image", image);
 
     try {
-      if (isEditing) {
-        await axios.put(`${API_URL}/users/${userId}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        alert("User updated successfully!");
-      } else {
-        await axios.post(`${API_URL}/users`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        alert("User created successfully!");
-      }
-      navigate("/login");
-      resetForm();
-      if (onSuccess) onSuccess(); // Callback to handle success
-      // navigate("/");
+      const response = isEditing
+        ? await axios.put(`${API_URL}/users/${userId}`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+        : await axios.post(`${API_URL}/users`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+
+      const { message, user, token } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Update context with new user and token
+      login(user, token);
+
+      navigate("/");
+
+      if (onSuccess) onSuccess();
     } catch (error) {
       console.error(
         "Error submitting user:",
@@ -75,31 +72,45 @@ const UserForm = ({ userId, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Weight"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
-        required
-      />
-      <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+    <div className="user-form-container">
+      <form className="user-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="user-form__input"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          className="user-form__input"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="number"
+          className="user-form__input"
+          placeholder="Weight"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+          required
+        />
+        <input
+          type="file"
+          className="user-form__file-input"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <label htmlFor="file-input" className="user-form__file-label">
+          Choose file
+        </label>
 
-      <button type="submit">{isEditing ? "Update" : "Sign Up"}</button>
-    </form>
+        <button type="submit" className="user-form__button">
+          {isEditing ? "Update" : "Sign Up"}
+        </button>
+      </form>
+    </div>
   );
 };
 

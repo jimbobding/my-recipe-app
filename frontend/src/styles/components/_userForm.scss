@@ -1,0 +1,67 @@
+@import "_sharedStyles";
+// @import "_variables";
+
+.user-form-container {
+  padding: 20px;
+
+  .user-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    box-shadow: 0px 0px 10px black;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9; // Optional background color for better contrast
+
+    .user-form__input {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      border: 2px solid black;
+      border-radius: 4px; // Add border-radius for rounded corners
+      padding: 8px; // Add padding inside input fields for better aesthetics
+
+      &::placeholder {
+        color: #888; // Change placeholder text color for better visibility
+      }
+    }
+
+    .user-form__file-input {
+      /* Hide the default file input */
+      display: none;
+    }
+
+    .user-form__file-label {
+      display: inline-block;
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 4px;
+      background-color: #e0e0e0;
+      color: black;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #d0d0d0;
+      }
+    }
+
+    .user-form__button {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff; // Example primary color
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3; // Darker shade on hover
+      }
+    }
+  }
+}

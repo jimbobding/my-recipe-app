@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { API_URL } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Import AuthContext
+import { useAuth } from "../context/AuthContext"; // Import
+import "../styles/components/_loginForm.scss";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -36,10 +37,11 @@ const LoginForm = () => {
 
   return (
     <div className="login-form">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="login-form__title">Login</h2>
+      <form className="login-form__form" onSubmit={handleSubmit}>
         <input
           type="text"
+          className="login-form__input"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -47,14 +49,17 @@ const LoginForm = () => {
         />
         <input
           type="password"
+          className="login-form__input"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="login-form__button">
+          Login
+        </button>
       </form>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="login-form__error">{error}</p>}
     </div>
   );
 };

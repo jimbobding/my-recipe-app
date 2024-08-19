@@ -1,8 +1,8 @@
-import React, { useEffect, e } from "react";
+import React, { useEffect } from "react";
 import { getAllRecipes } from "../services/api";
 import { Link } from "react-router-dom";
-import "../styles/components/_recipeList.scss";
-import "../styles/_variables.scss";
+import "../styles/components/_recipeList.scss"; // Import the styles
+import "../styles/_variables.scss"; // Import any variables if needed
 import useRecipeForm from "../hooks/useRecipeForm";
 
 function RecipeList() {
@@ -12,7 +12,7 @@ function RecipeList() {
     const fetchRecipes = async () => {
       try {
         const data = await getAllRecipes();
-        setRecipes(data); // Use the setRecipes from the custom hook if you're managing state there
+        setRecipes(data);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
@@ -53,14 +53,20 @@ function RecipeList() {
               <h3>Description</h3>
               {recipe.description}
             </div>
-            <Link to={`/edit/${recipe.id}`}>
-              <button>Edit</button>
-            </Link>
-
-            <Link to={`/view/${recipe.id}`}>
-              <button>View</button>
-            </Link>
-            <button onClick={() => handleDelete(recipe.id)}>Delete</button>
+            <div className="recipe-actions">
+              <Link to={`/edit-recipe/${recipe.id}`}>
+                <button className="recipe-button">Edit</button>
+              </Link>
+              <Link to={`/view-recipe/${recipe.id}`}>
+                <button className="recipe-button">View</button>
+              </Link>
+              <button
+                onClick={() => handleDelete(recipe.id)}
+                className="recipe-button"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
