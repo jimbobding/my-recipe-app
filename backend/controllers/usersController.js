@@ -1,7 +1,9 @@
-const express = require("express");
 const usersModel = require("../models/users");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const saltRounds = 10;
 
@@ -21,8 +23,7 @@ exports.createUser = async (req, res) => {
   const { username, password, weight } = req.body;
   const image_file = req.file; // Retrieve the file object from the request
   const image_url = image_file ? path.basename(image_file.path) : null; // Store only the file name
-  // const image_url = "/uploads/test-image.png";
-  console.log("req.file", req.file);
+
   try {
     // Check if username already exists
     usersModel.findByUsername(username, async (err, results) => {
@@ -35,16 +36,25 @@ exports.createUser = async (req, res) => {
       }
 
       const hashedPassword = await hashPassword(password);
+
       usersModel.createUser(
         username,
         hashedPassword,
         image_url,
         weight,
-        (err, results) => {
+        async (err, results) => {
           if (err) {
             console.error("Error creating user:", err);
             return res.status(500).send("Error creating user");
           }
+
+          // Generate a JWT token
+          const token = jwt.sign(
+            { id: results.insertId, username },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+          );
+
           // Construct the URL for the image
           const imageUrl = image_url
             ? `${req.protocol}://${req.get("host")}/uploads/${image_url}`
@@ -52,14 +62,19 @@ exports.createUser = async (req, res) => {
 
           res.status(201).json({
             message: "User created successfully",
-            id: results.insertId,
-            imageUrl: imageUrl, // Return the full URL
+            user: {
+              id: results.insertId,
+              username,
+              image_url: imageUrl,
+              weight,
+            },
+            token,
           });
         }
       );
     });
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error("Error during user creation:", error);
     res.status(500).send("Internal server error");
   }
 };
