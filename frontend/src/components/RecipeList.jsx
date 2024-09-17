@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { getAllRecipes } from "../services/api";
 import { Link } from "react-router-dom";
 import "../styles/components/_recipeList.scss"; // Import the styles
-import "../styles/_variables.scss"; // Import any variables if needed
+import "../styles/_variables.scss";
 import useRecipeForm from "../hooks/useRecipeForm";
 
 function RecipeList() {
@@ -12,7 +12,9 @@ function RecipeList() {
     const fetchRecipes = async () => {
       try {
         const data = await getAllRecipes();
+
         setRecipes(data);
+        console.log("Fetched Recipes Data:", data);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
@@ -31,7 +33,7 @@ function RecipeList() {
               <div className="recipe-list-item">
                 <h3>Image</h3>
                 <img
-                  src={`http://localhost:3000/uploads/${recipe.image_url.split("/").pop()}`}
+                  src={`http://localhost:3002${recipe.image_url}`}
                   alt={recipe.title}
                   className="recipe-image"
                 />
