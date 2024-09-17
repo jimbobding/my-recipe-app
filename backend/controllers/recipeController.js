@@ -21,6 +21,7 @@ exports.getAllRecipes = (req, res) => {
       console.error("Error fetching recipes:", err);
       return res.status(500).send("Error fetching recipes");
     }
+    console.log("RESULTS:", results);
     res.json(results);
   });
 };
@@ -35,15 +36,50 @@ exports.getRecipeById = (req, res) => {
     if (results.length === 0) {
       return res.status(404).send("Recipe not found");
     }
+    console.log("Fetched Recipe by ID:", results[0]);
     res.json(results[0]);
   });
 };
 
+// exports.createRecipe = (req, res) => {
+//   const { title, description, ingredients, instructions } = req.body;
+//   const image_url = req.file ? req.file.path : null;
+//   console.log("Request Body:", req.body);
+//   console.log("Uploaded File Path:", image_url);
+//   const recipeData = {
+//     title,
+//     description,
+//     ingredients,
+//     instructions,
+//     image_url,
+//   };
+
+//   recipeModel.createRecipe(recipeData, (err, result) => {
+//     if (err) {
+//       console.error("Error creating recipe:", err);
+//       return res.status(500).send("Error creating recipe");
+//     }
+//     res.status(201).json({
+//       message: "Recipe created successfully",
+//       id: result.insertId,
+//       imageUrl: image_url, // Include the image URL in the response
+//     });
+//   });
+// };
+
 exports.createRecipe = (req, res) => {
   const { title, description, ingredients, instructions } = req.body;
-  const image_url = req.file ? req.file.path : null;
+  // Transform the full local path to a relative URL
+  const image_url = req.file
+    ? req.file.path.replace(
+        "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
+        "/uploads"
+      )
+    : null;
+
   console.log("Request Body:", req.body);
   console.log("Uploaded File Path:", image_url);
+
   const recipeData = {
     title,
     description,
@@ -60,7 +96,7 @@ exports.createRecipe = (req, res) => {
     res.status(201).json({
       message: "Recipe created successfully",
       id: result.insertId,
-      imageUrl: image_url, // Include the image URL in the response
+      imageUrl: image_url,
     });
   });
 };
@@ -68,7 +104,12 @@ exports.createRecipe = (req, res) => {
 exports.updateRecipe = (req, res) => {
   const id = req.params.id;
   const { title, description, ingredients, instructions } = req.body;
-  const image_url = req.file ? req.file.path : null;
+  const image_url = req.file
+    ? req.file.path.replace(
+        "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
+        "/uploads"
+      )
+    : null;
 
   const recipeData = {
     title,
@@ -101,8 +142,6 @@ exports.deleteRecipe = (req, res) => {
   });
 };
 
-
-
 exports.uploadImage = (req, res) => {
   upload.single("image")(req, res, (err) => {
     if (err instanceof multer.MulterError) {
@@ -117,7 +156,12 @@ exports.uploadImage = (req, res) => {
       return res.status(400).json({ message: "No file uploaded!" });
     }
 
-    const imageUrl = req.file.path;
+    const imageUrl = req.file
+      ? req.file.path.replace(
+          "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
+          "/uploads"
+        )
+      : null;
     const { recipeId } = req.body;
     const sql = `UPDATE recipes SET image_url = ? WHERE id = ?`;
     const values = [imageUrl, recipeId];
