@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getAllRecipes,
   addRecipe,
@@ -16,30 +17,52 @@ function useRecipeForm() {
   const [imageUrl, setImageUrl] = useState("");
   const [recipes, setRecipes] = useState([]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("ingredients", ingredients);
-    formData.append("instructions", instructions);
-    formData.append("description", description);
-    if (image) {
-      formData.append("image", image);
-    }
+  // const handleSubmit = async (event) => {
+  //   console.log("Form Submitted"); // Check if this prints
+  //   const formData = new FormData();
+  //   formData.append("title", title);
+  //   formData.append("ingredients", ingredients);
+  //   formData.append("instructions", instructions);
+  //   formData.append("description", description);
+  //   if (image) {
+  //     formData.append("image", image);
+  //   }
+  //   console.log("Form Data:", formData); // Check the form data
 
+  //   try {
+  //     const data = await addRecipe(formData);
+  //     console.log("Recipe added successfully:", data); // Check if this prints
+  //     setImageUrl(data.imageUrl);
+  //     setRecipes([...recipes, data]);
+  //     setTitle("");
+  //     setIngredients("");
+  //     setInstructions("");
+  //     setDescription("");
+  //     setImage(null);
+  //   } catch (error) {
+  //     console.error("Error adding recipe:", error);
+  //   }
+  // };
+
+  const handleSubmit = async () => {
     try {
-      const data = await addRecipe(formData);
-      console.log("Recipe added successfully:", data);
-      setImageUrl(data.imageUrl);
-      setRecipes([...recipes, data]);
-      // Optionally, reset the form fields
-      setTitle("");
-      setIngredients("");
-      setInstructions("");
-      setDescription("");
-      setImage(null);
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("ingredients", ingredients);
+      formData.append("instructions", instructions);
+      formData.append("description", description);
+      if (image) {
+        formData.append("image", image);
+      }
+
+      const response = await addRecipe(formData); // Make sure you await the response
+
+      console.log("Recipe added successfully in handleSubmit:", response); // For debugging
+      return response; // Return the response if successful
     } catch (error) {
-      console.error("Error adding recipe:", error);
+      console.error("Error in handleSubmit:", error); // Log the error
+
+      throw error; // Rethrow the error so handleFormSubmit can catch it
     }
   };
 

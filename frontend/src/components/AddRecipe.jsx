@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useRecipeForm from "../hooks/useRecipeForm";
 import "../styles/components/_addRecipe.scss";
+import { useNavigate } from "react-router-dom";
 
 function AddRecipe() {
   const navigate = useNavigate();
@@ -16,32 +16,50 @@ function AddRecipe() {
     setDescription,
     handleSubmit,
     setImage,
-    imageUrl,
   } = useRecipeForm();
 
-  const [message, setMessage] = useState(""); // State for success or error message
-  const [loading, setLoading] = useState(false); // State to handle loading
+  // Local state for image URL after submission
+  const [imageUrl, setImageUrl] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
   };
 
-  // Wrap handleSubmit to handle additional logic
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setError(null);
+    setMessage("");
 
     try {
-      await handleSubmit(); // Assuming handleSubmit returns a promise
+      const data = await handleSubmit(); // handleSubmit returns the API response
+
+      // If successful, update the image URL (local state)
+      setImageUrl(data.imageUrl);
+
+      // Clear form fields
+      setTitle("");
+      setIngredients("");
+      setInstructions("");
+      setDescription("");
+      setImage(null);
+
+      // Show success message and navigate after delay
       setMessage("Recipe added successfully!");
       setLoading(false);
+
       setTimeout(() => {
-        navigate("/recipes"); // Redirect to recipes page after 2 seconds
-      }, 2000); // Optional: Delay to show the success message
-    } catch (error) {
-      console.error("Error adding recipe:", error);
-      setMessage("Failed to add recipe. Please try again.");
+        navigate("/recipes");
+      }, 2000);
+    } catch (err) {
+      console.error("Error adding recipe:", err);
+      setError(true);
+      setMessage("Failed to add the recipe. Please try again.");
       setLoading(false);
     }
   };
@@ -57,7 +75,6 @@ function AddRecipe() {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Recipe Title"
-            required
           />
         </div>
         <div className="input-container">
@@ -66,7 +83,6 @@ function AddRecipe() {
             value={ingredients}
             onChange={(event) => setIngredients(event.target.value)}
             placeholder="Enter ingredients separated by commas"
-            required
           />
         </div>
         <div className="input-container">
@@ -75,7 +91,6 @@ function AddRecipe() {
             value={instructions}
             onChange={(event) => setInstructions(event.target.value)}
             placeholder="Enter instructions separated by commas"
-            required
           />
         </div>
         <div className="input-container">
@@ -84,7 +99,6 @@ function AddRecipe() {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Enter a description"
-            required
           />
         </div>
         <div className="input-container">
@@ -100,11 +114,7 @@ function AddRecipe() {
             onChange={handleImageChange}
           />
         </div>
-        {imageUrl && (
-          <div className="image-preview">
-            <img src={imageUrl} alt="Recipe" />
-          </div>
-        )}
+
         <button
           type="submit"
           className="add-recipe-submit-btn"
@@ -113,7 +123,13 @@ function AddRecipe() {
           {loading ? "Adding..." : "Add Recipe"}
         </button>
       </form>
-      {message && <p>{message}</p>} {/* Display the success or error message */}
+      <div className="add-message-container">
+        {message && (
+          <p className={error ? "recipe-failure" : "recipe-success"}>
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
