@@ -18,9 +18,6 @@ function AddRecipe() {
     setImage,
   } = useRecipeForm();
 
-  // Local state for image URL after submission
-  const [imageUrl, setImageUrl] = useState(null);
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
@@ -37,12 +34,9 @@ function AddRecipe() {
     setMessage("");
 
     try {
-      const data = await handleSubmit(); // handleSubmit returns the API response
+      await handleSubmit(); // handleSubmit returns the API response
 
-      // If successful, update the image URL (local state)
-      setImageUrl(data.imageUrl);
-
-      // Clear form fields
+      // Clear form fields after successful submission
       setTitle("");
       setIngredients("");
       setInstructions("");
