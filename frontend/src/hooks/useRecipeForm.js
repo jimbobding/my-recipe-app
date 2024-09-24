@@ -17,33 +17,6 @@ function useRecipeForm() {
   const [imageUrl, setImageUrl] = useState("");
   const [recipes, setRecipes] = useState([]);
 
-  // const handleSubmit = async (event) => {
-  //   console.log("Form Submitted"); // Check if this prints
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("ingredients", ingredients);
-  //   formData.append("instructions", instructions);
-  //   formData.append("description", description);
-  //   if (image) {
-  //     formData.append("image", image);
-  //   }
-  //   console.log("Form Data:", formData); // Check the form data
-
-  //   try {
-  //     const data = await addRecipe(formData);
-  //     console.log("Recipe added successfully:", data); // Check if this prints
-  //     setImageUrl(data.imageUrl);
-  //     setRecipes([...recipes, data]);
-  //     setTitle("");
-  //     setIngredients("");
-  //     setInstructions("");
-  //     setDescription("");
-  //     setImage(null);
-  //   } catch (error) {
-  //     console.error("Error adding recipe:", error);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     try {
       const formData = new FormData();

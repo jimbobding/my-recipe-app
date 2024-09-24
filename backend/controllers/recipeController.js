@@ -41,32 +41,6 @@ exports.getRecipeById = (req, res) => {
   });
 };
 
-// exports.createRecipe = (req, res) => {
-//   const { title, description, ingredients, instructions } = req.body;
-//   const image_url = req.file ? req.file.path : null;
-//   console.log("Request Body:", req.body);
-//   console.log("Uploaded File Path:", image_url);
-//   const recipeData = {
-//     title,
-//     description,
-//     ingredients,
-//     instructions,
-//     image_url,
-//   };
-
-//   recipeModel.createRecipe(recipeData, (err, result) => {
-//     if (err) {
-//       console.error("Error creating recipe:", err);
-//       return res.status(500).send("Error creating recipe");
-//     }
-//     res.status(201).json({
-//       message: "Recipe created successfully",
-//       id: result.insertId,
-//       imageUrl: image_url, // Include the image URL in the response
-//     });
-//   });
-// };
-
 exports.createRecipe = (req, res) => {
   const { title, description, ingredients, instructions } = req.body;
   // Transform the full local path to a relative URL
