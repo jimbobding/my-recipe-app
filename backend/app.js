@@ -19,6 +19,7 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; img-src 'self' data:;"
   );
+  console.log(`Request for image: ${req.url}`);
 
   next();
 });

@@ -14,7 +14,6 @@ export const getAllRecipes = async () => {
   }
 };
 
-// Function to add a new recipe, accepting FormData
 export const addRecipe = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/recipes`, formData, {
@@ -22,10 +21,28 @@ export const addRecipe = async (formData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    return response.data;
+    console.log("addRecipe successful response:", response); // Debugging success
+    return response.data; // Success case, returns the recipe data
   } catch (error) {
-    console.error("Error adding recipe:", error);
-    throw error;
+    console.error("Error in addRecipe:", error); // Log the error
+
+    if (error.response) {
+      // Server responded with an error status code
+      console.log("Server error:", error.response);
+      throw new Error(
+        `Server error: ${error.response.data.message || "Failed to add recipe."}`
+      );
+    } else if (error.request) {
+      // No response received (e.g., network failure, CORS issue, server down)
+      console.log("Network error:", error.request);
+      throw new Error(
+        "No response from server. Please check your network connection."
+      );
+    } else {
+      // Other unknown error
+      console.log("Unexpected error:", error.message);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
   }
 };
 

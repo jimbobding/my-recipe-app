@@ -28,14 +28,17 @@ function RecipeDetail() {
         <h1 className="recipe-title">{recipe.title}</h1>
         {recipe.image_url && (
           <img
-            src={`http://localhost:3000/uploads/${recipe.image_url.split("/").pop()}`}
+            src={`http://localhost:3002${recipe.image_url}`}
             alt={recipe.title}
             className="recipe-detail-image"
           />
         )}
         <div className="recipe-detail-content">
           <p className="recipe-description">
-            <strong>Description:</strong> {recipe.description}
+            <p>
+              <strong>Description:</strong>
+            </p>
+            <p>{recipe.description}</p>
           </p>
           <div className="recipe-ingredients">
             <p>

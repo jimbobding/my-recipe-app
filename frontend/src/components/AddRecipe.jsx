@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import useRecipeForm from "../hooks/useRecipeForm";
 import "../styles/components/_addRecipe.scss";
+import { useNavigate } from "react-router-dom";
 
 function AddRecipe() {
+  const navigate = useNavigate();
   const {
     title,
     ingredients,
@@ -14,7 +16,6 @@ function AddRecipe() {
     setDescription,
     handleSubmit,
     setImage,
-    imageUrl,
   } = useRecipeForm();
 
   const handleImageChange = (event) => {
@@ -22,10 +23,45 @@ function AddRecipe() {
     setImage(file);
   };
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+    setMessage("");
+
+    try {
+      await handleSubmit(); // handleSubmit returns the API response
+
+      // Clear form fields after successful submission
+      setTitle("");
+      setIngredients("");
+      setInstructions("");
+      setDescription("");
+      setImage(null);
+
+      // Show success message and navigate after delay
+      setMessage("Recipe added successfully!");
+      setLoading(false);
+
+      setTimeout(() => {
+        navigate("/recipes");
+      }, 2000);
+    } catch (err) {
+      console.error("Error adding recipe:", err);
+      setError(true);
+      setMessage("Failed to add the recipe. Please try again.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="add-recipe-container">
       <h2>Add Recipe</h2>
-      <form onSubmit={handleSubmit} className="add-recipe-form">
+      <form onSubmit={handleFormSubmit} className="add-recipe-form">
         <div className="input-container">
           <h3>Title</h3>
           <input
@@ -72,15 +108,22 @@ function AddRecipe() {
             onChange={handleImageChange}
           />
         </div>
-        {imageUrl && (
-          <div className="image-preview">
-            <img src={imageUrl} alt="Recipe" />
-          </div>
-        )}
-        <button type="submit" className="add-recipe-submit-btn">
-          Add Recipe
+
+        <button
+          type="submit"
+          className="add-recipe-submit-btn"
+          disabled={loading}
+        >
+          {loading ? "Adding..." : "Add Recipe"}
         </button>
       </form>
+      <div className="add-message-container">
+        {message && (
+          <p className={error ? "recipe-failure" : "recipe-success"}>
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
