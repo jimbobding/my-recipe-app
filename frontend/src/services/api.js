@@ -16,30 +16,51 @@ export const getAllRecipes = async () => {
 
 export const addRecipe = async (formData) => {
   try {
+    const token = localStorage.getItem("token");
+    console.log("Authorization token:", token);
+
+    // If token is missing, throw an error
+    if (!token) {
+      console.error("Authorization token is missing.");
+      throw new Error("You must be logged in to add a recipe.");
+    }
+
+    // Send the POST request to add a recipe
     const response = await axios.post(`${API_URL}/recipes`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`, // Attach token in headers
+        "Content-Type": "multipart/form-data", // Ensure the request is sent with the correct content type
       },
     });
-    console.log("addRecipe successful response:", response); // Debugging success
-    return response.data; // Success case, returns the recipe data
-  } catch (error) {
-    console.error("Error in addRecipe:", error); // Log the error
 
+    console.log("addRecipe successful response:", response); // For debugging
+    return response.data; // Return the response if successful
+  } catch (error) {
+    console.error("Error in addRecipe:", error); // Log the error for debugging
+
+    // Handle server-side errors
     if (error.response) {
-      // Server responded with an error status code
+      const status = error.response.status;
+
+      // Handle 403 Forbidden errors (when token is invalid or expired)
+      if (status === 403) {
+        console.error("Authorization failed. Token may be expired or invalid.");
+        throw new Error("Authorization failed. Please log in again.");
+      }
+
+      // Handle other status codes from server
       console.log("Server error:", error.response);
       throw new Error(
         `Server error: ${error.response.data.message || "Failed to add recipe."}`
       );
     } else if (error.request) {
-      // No response received (e.g., network failure, CORS issue, server down)
+      // No response received from the server
       console.log("Network error:", error.request);
       throw new Error(
-        "No response from server. Please check your network connection."
+        "No response from the server. Please check your network connection."
       );
     } else {
-      // Other unknown error
+      // Other unexpected errors
       console.log("Unexpected error:", error.message);
       throw new Error("An unexpected error occurred. Please try again.");
     }
@@ -53,6 +74,17 @@ export const getRecipeById = async (id) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching recipe:", error);
+    throw error;
+  }
+};
+
+// Function to get all recipes by a specific user ID
+export const getRecipesByUserId = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/recipes/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching recipes by user:", error);
     throw error;
   }
 };

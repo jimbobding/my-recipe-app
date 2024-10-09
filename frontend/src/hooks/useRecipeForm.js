@@ -8,7 +8,7 @@ import {
   getRecipeById,
 } from "../services/api";
 
-function useRecipeForm() {
+function useRecipeForm(userId) {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -27,6 +27,7 @@ function useRecipeForm() {
       if (image) {
         formData.append("image", image);
       }
+      formData.append("userId", userId);
 
       const response = await addRecipe(formData); // Make sure you await the response
 

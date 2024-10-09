@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import useRecipeForm from "../hooks/useRecipeForm";
-import "../styles/components/_addRecipe.scss";
 import { useNavigate } from "react-router-dom";
+import useRecipeForm from "../hooks/useRecipeForm";
+import { useAuth } from "../context/AuthContext"; // Import useAuth to access userId from AuthContext
+import "../styles/components/_addRecipe.scss";
 
 function AddRecipe() {
   const navigate = useNavigate();
+  const { user } = useAuth(); // Access user object from AuthContext
+  const userId = user?.userId; // Extract userId safely
+
   const {
     title,
     ingredients,
@@ -16,11 +20,11 @@ function AddRecipe() {
     setDescription,
     handleSubmit,
     setImage,
-  } = useRecipeForm();
+  } = useRecipeForm(userId); // Pass userId to the hook
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setImage(file);
+    setImage(file); // Store the selected image
   };
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +47,7 @@ function AddRecipe() {
       setDescription("");
       setImage(null);
 
-      // Show success message and navigate after delay
+      // Show success message and navigate after a delay
       setMessage("Recipe added successfully!");
       setLoading(false);
 
@@ -69,6 +73,7 @@ function AddRecipe() {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Recipe Title"
+            required // Ensure the title is required
           />
         </div>
         <div className="input-container">
@@ -77,6 +82,7 @@ function AddRecipe() {
             value={ingredients}
             onChange={(event) => setIngredients(event.target.value)}
             placeholder="Enter ingredients separated by commas"
+            required // Ensure ingredients are required
           />
         </div>
         <div className="input-container">
@@ -85,6 +91,7 @@ function AddRecipe() {
             value={instructions}
             onChange={(event) => setInstructions(event.target.value)}
             placeholder="Enter instructions separated by commas"
+            required // Ensure instructions are required
           />
         </div>
         <div className="input-container">
@@ -93,6 +100,7 @@ function AddRecipe() {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Enter a description"
+            required // Ensure description is required
           />
         </div>
         <div className="input-container">
@@ -106,6 +114,7 @@ function AddRecipe() {
             accept="image/*"
             className="add-recipe__file-input"
             onChange={handleImageChange}
+            name="recipeImage"
           />
         </div>
 
