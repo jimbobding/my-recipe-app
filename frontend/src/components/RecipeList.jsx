@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { getAllRecipes } from "../services/api";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Import your auth context
 import "../styles/components/_recipeList.scss"; // Import the styles
 import "../styles/_variables.scss";
 import useRecipeForm from "../hooks/useRecipeForm";
 
 function RecipeList() {
   const { recipes, setRecipes, handleDelete } = useRecipeForm();
+  const { user, isLoggedIn } = useAuth(); // Get user and isLoggedIn from your auth context
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const data = await getAllRecipes();
-
         setRecipes(data);
         console.log("Fetched Recipes Data:", data);
       } catch (error) {
@@ -56,18 +57,24 @@ function RecipeList() {
               {recipe.description}
             </div>
             <div className="recipe-actions">
-              <Link to={`/edit-recipe/${recipe.id}`}>
-                <button className="recipe-button">Edit</button>
-              </Link>
               <Link to={`/view-recipe/${recipe.id}`}>
                 <button className="recipe-button">View</button>
               </Link>
-              <button
-                onClick={() => handleDelete(recipe.id)}
-                className="recipe-button"
-              >
-                Delete
-              </button>
+
+              {/* Show Edit and Delete buttons only if the logged-in user owns the recipe */}
+              {isLoggedIn && user && user.id === recipe.user_id && (
+                <>
+                  <Link to={`/edit-recipe/${recipe.id}`}>
+                    <button className="recipe-button">Edit</button>
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(recipe.id)}
+                    className="recipe-button"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ))}
