@@ -7,11 +7,6 @@ import "../styles/components/_navbar.scss";
 function Navbar() {
   const { isLoggedIn, logout } = useAuth(); // Use Auth context to get login state
 
-  // Optional: Use useEffect to handle side effects if needed
-  // React.useEffect(() => {
-  //   // You can use this to perform side effects if necessary
-  // }, [isLoggedIn]);
-
   return (
     <nav className="navbar">
       <div className="logo">

@@ -99,6 +99,7 @@ const UserForm = ({ userId, onSuccess }) => {
         />
         <input
           type="file"
+          id="file-input"
           className="user-form__file-input"
           onChange={(e) => setImage(e.target.files[0])}
         />
