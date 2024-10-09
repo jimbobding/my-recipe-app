@@ -21,7 +21,7 @@ exports.getAllRecipes = (req, res) => {
       console.error("Error fetching recipes:", err);
       return res.status(500).send("Error fetching recipes");
     }
-    console.log("RESULTS:", results);
+
     res.json(results);
   });
 };
@@ -41,9 +41,29 @@ exports.getRecipeById = (req, res) => {
   });
 };
 
+// Fetch all recipes by userId
+exports.getRecipesByUserId = (req, res) => {
+  const userId = req.params.userId; // Get the userId from the request parameters
+
+  recipeModel.getRecipesByUserId(userId, (err, results) => {
+    if (err) {
+      console.error("Error fetching user recipes:", err);
+      return res.status(500).json({ message: "Failed to fetch user recipes." });
+    }
+
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No recipes found for this user." });
+    }
+
+    res.status(200).json(results); // Return the recipes
+  });
+};
+
 exports.createRecipe = (req, res) => {
   const { title, description, ingredients, instructions } = req.body;
-  // Transform the full local path to a relative URL
+
   const image_url = req.file
     ? req.file.path.replace(
         "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
@@ -51,8 +71,10 @@ exports.createRecipe = (req, res) => {
       )
     : null;
 
-  console.log("Request Body:", req.body);
-  console.log("Uploaded File Path:", image_url);
+  const userId = req.user ? req.user.id : null;
+
+  // Debugging
+  console.log("User ID:", userId); // This should show the logged-in user ID
 
   const recipeData = {
     title,
@@ -60,6 +82,7 @@ exports.createRecipe = (req, res) => {
     ingredients,
     instructions,
     image_url,
+    userId, // Make sure user_id is set correctly
   };
 
   recipeModel.createRecipe(recipeData, (err, result) => {

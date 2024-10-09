@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { host } = require("pg/lib/defaults");
 const JWT_SECRET = process.env.JWT_SECRET;
+require("dotenv").config();
 
 exports.signIn = async (req, res) => {
   const { username, password } = req.body;
@@ -38,8 +39,10 @@ exports.signIn = async (req, res) => {
       const token = jwt.sign(
         { id: user.id, username: user.username },
         JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "1d" }
       );
+
+      console.log("Generated Token:", token);
 
       // Construct the full image URL
       const imageUrl = user.image_url

@@ -48,11 +48,11 @@ exports.createUser = async (req, res) => {
             return res.status(500).send("Error creating user");
           }
 
-          // Generate a JWT token
+          // Generate a JWT token here
           const token = jwt.sign(
-            { id: results.insertId, username },
+            { id: results.insertId, username }, // Include user ID and username in token
             JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "1h" } // Token expires in 1 hour
           );
 
           // Construct the URL for the image
@@ -68,7 +68,7 @@ exports.createUser = async (req, res) => {
               image_url: imageUrl,
               weight,
             },
-            token,
+            token, // Send the token in the response
           });
         }
       );
