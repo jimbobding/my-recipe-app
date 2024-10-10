@@ -69,7 +69,7 @@ function RecipeList() {
                   </Link>
                   <button
                     onClick={() => handleDelete(recipe.id)}
-                    className="recipe-button"
+                    className="recipe-button delete-button"
                   >
                     Delete
                   </button>
