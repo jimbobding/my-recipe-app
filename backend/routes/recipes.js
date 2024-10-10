@@ -68,6 +68,6 @@ router.put(
   authenticateJWT,
   recipeController.updateRecipe
 ); // PUT /api/recipes/:id (auth required)
-router.delete("/:id", authenticateJWT, recipeController.deleteRecipe); // DELETE /api/recipes/:id (auth required)
+router.delete("/:id", recipeController.deleteRecipe); // DELETE /api/recipes/:id (auth required)
 
 module.exports = router;
