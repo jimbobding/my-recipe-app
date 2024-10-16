@@ -41,8 +41,8 @@ const HomePage = () => {
   }, [user, setRecipes]);
 
   // Use the image URL from the user object or fall back to a default image
-  const imageUrl = user?.image_url || defaultImageUrl;
 
+  const imageUrl = user?.image_url || defaultImageUrl;
   return (
     <div>
       <h1>Welcome to the Home Page</h1>

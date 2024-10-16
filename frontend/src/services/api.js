@@ -16,10 +16,11 @@ export const getAllRecipes = async () => {
 
 export const addRecipe = async (formData) => {
   try {
+    // Retrieve the token from localStorage
     const token = localStorage.getItem("token");
-    console.log("Authorization token:", token);
+    console.log("Authorization token:", token); // Log the token for debugging
 
-    // If token is missing, throw an error
+    // If the token is missing, show an error message
     if (!token) {
       console.error("Authorization token is missing.");
       throw new Error("You must be logged in to add a recipe.");
@@ -28,40 +29,39 @@ export const addRecipe = async (formData) => {
     // Send the POST request to add a recipe
     const response = await axios.post(`${API_URL}/recipes`, formData, {
       headers: {
-        Authorization: `Bearer ${token}`, // Attach token in headers
-        "Content-Type": "multipart/form-data", // Ensure the request is sent with the correct content type
+        Authorization: `Bearer ${token}`, // Attach the token in the headers
+        "Content-Type": "multipart/form-data", // Use the correct content type
       },
     });
 
-    console.log("addRecipe successful response:", response); // For debugging
-    return response.data; // Return the response if successful
+    console.log("addRecipe successful response:", response); // Log successful response
+    return response.data; // Return the response if the request was successful
   } catch (error) {
-    console.error("Error in addRecipe:", error); // Log the error for debugging
+    console.error("Error in addRecipe:", error); // Log any error that occurs
 
-    // Handle server-side errors
+    // Check if the error comes from the server (i.e., server responded with an error status)
     if (error.response) {
       const status = error.response.status;
 
-      // Handle 403 Forbidden errors (when token is invalid or expired)
+      // Handle authorization errors (if token is invalid or expired)
       if (status === 403) {
         console.error("Authorization failed. Token may be expired or invalid.");
         throw new Error("Authorization failed. Please log in again.");
       }
 
-      // Handle other status codes from server
-      console.log("Server error:", error.response);
+      // Handle other server-side errors
       throw new Error(
         `Server error: ${error.response.data.message || "Failed to add recipe."}`
       );
     } else if (error.request) {
-      // No response received from the server
-      console.log("Network error:", error.request);
+      // If no response is received from the server (network error)
+      console.error("Network error:", error.request);
       throw new Error(
         "No response from the server. Please check your network connection."
       );
     } else {
       // Other unexpected errors
-      console.log("Unexpected error:", error.message);
+      console.error("Unexpected error:", error.message);
       throw new Error("An unexpected error occurred. Please try again.");
     }
   }

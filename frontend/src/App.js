@@ -8,9 +8,15 @@ import RecipeDetail from "./components/RecipeDetail";
 import Navbar from "./components/Navbar";
 import UserForm from "./components/UserForm";
 import LoginForm from "./components/LoginForm";
+// import { useAuth } from "./context/AuthContext";
+import useAutoLogout from "./hooks/useAutoLogout";
+
 // import RegisterForm from "./components/RegisterForm";
 
 function App() {
+  // Always call the hook regardless of login status
+  useAutoLogout(10000);
+
   return (
     <div className="app-container">
       <Navbar />

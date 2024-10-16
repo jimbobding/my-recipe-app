@@ -9,6 +9,7 @@ import useRecipeForm from "../hooks/useRecipeForm";
 function RecipeList() {
   const { recipes, setRecipes, handleDelete } = useRecipeForm();
   const { user, isLoggedIn } = useAuth(); // Get user and isLoggedIn from your auth context
+  const defaultImage = "/defaultRecipePic/download.jpeg"; // Path for the default image
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -30,16 +31,18 @@ function RecipeList() {
       <div className="recipe-list-container">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="recipe-list-recipe">
-            {recipe.image_url && (
-              <div className="recipe-list-item">
-                <h3>Image</h3>
-                <img
-                  src={`http://localhost:3002${recipe.image_url}`}
-                  alt={recipe.title}
-                  className="recipe-image"
-                />
-              </div>
-            )}
+            <div className="recipe-list-item">
+              <h3>Image</h3>
+              <img
+                src={
+                  recipe.image_url
+                    ? `http://localhost:3002${recipe.image_url}`
+                    : defaultImage // Use default image if recipe.image_url is absent
+                }
+                alt={recipe.title || "Default Recipe"}
+                className="recipe-image"
+              />
+            </div>
             <div className="recipe-list-item">
               <h3>Title</h3>
               {recipe.title}

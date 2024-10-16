@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth(); // Access the login method from AuthContext
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,10 +27,10 @@ const LoginForm = () => {
 
       console.log("Login response user:", JSON.stringify(user), token);
 
-      login(user); // Update context state
-      navigate("/"); // Redirect to home page
+      login(user, token); // Update context state
+      navigate("/");
     } catch (err) {
-      console.error("Login error:", err); // Debugging log
+      console.error("Login error:", err);
       setError("Invalid username or password");
     }
   };
