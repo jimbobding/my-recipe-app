@@ -15,7 +15,7 @@ import useAutoLogout from "./hooks/useAutoLogout";
 
 function App() {
   // Always call the hook regardless of login status
-  useAutoLogout(10000);
+  useAutoLogout(3600000);
 
   return (
     <div className="app-container">

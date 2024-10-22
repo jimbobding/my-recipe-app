@@ -1,5 +1,8 @@
+@import "../variables";
+@import "sharedStyles";
+
 .navbar {
-  background-color: #cccdc7;
+  background-color: #02385a;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -7,9 +10,11 @@
   padding: 10px 20px;
 }
 
-.logo {
+.logo a {
   font-size: 1.5rem;
   font-weight: bold;
+  text-decoration: none;
+  color: #a6432c;
 }
 
 .nav-links {
@@ -19,6 +24,7 @@
 
 .nav-links li {
   margin-left: 20px;
+  list-style-type: none;
 }
 
 .nav-links li a {
@@ -28,5 +34,8 @@
 }
 
 .nav-links li a:hover {
-  text-decoration: underline;
+  color: #a6432c;
+}
+.logout-button {
+  @extend .button;
 }

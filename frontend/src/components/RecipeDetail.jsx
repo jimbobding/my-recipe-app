@@ -34,21 +34,31 @@ function RecipeDetail() {
           />
         )}
         <div className="recipe-detail-content">
-          <p className="recipe-description">
+          <div className="recipe-description">
             <p>
               <strong>Description:</strong>
             </p>
             <p>{recipe.description}</p>
-          </p>
+          </div>
+
+          {/* Displaying ingredients with line breaks */}
           <div className="recipe-ingredients">
             <p>
-              <strong>Ingredients:</strong> {recipe.ingredients}
+              <strong>Ingredients:</strong>
             </p>
+            {recipe.ingredients.split("\n").map((line, index) => (
+              <p key={index}>{line}</p> // Each ingredient on a new line
+            ))}
           </div>
+
+          {/* Displaying instructions with line breaks */}
           <div className="recipe-instructions">
             <p>
-              <strong>Instructions:</strong> {recipe.instructions}
+              <strong>Instructions:</strong>
             </p>
+            {recipe.instructions.split("\n").map((line, index) => (
+              <p key={index}>{line}</p> // Each instruction on a new line
+            ))}
           </div>
         </div>
       </div>

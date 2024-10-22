@@ -27,17 +27,15 @@ function RecipeList() {
 
   return (
     <>
-      <h1>Recipes</h1>
       <div className="recipe-list-container">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="recipe-list-recipe">
-            <div className="recipe-list-item">
-              <h3>Image</h3>
+            <div className="recipe-list-img">
               <img
                 src={
                   recipe.image_url
                     ? `http://localhost:3002${recipe.image_url}`
-                    : defaultImage // Use default image if recipe.image_url is absent
+                    : defaultImage
                 }
                 alt={recipe.title || "Default Recipe"}
                 className="recipe-image"

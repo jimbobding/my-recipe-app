@@ -90,11 +90,12 @@ export const getRecipesByUserId = async (userId) => {
 };
 
 // Function to update a recipe, accepting FormData
-export const updateRecipe = async (id, formData) => {
+export const updateRecipe = async (id, formData, token) => {
   try {
     const response = await axios.put(`${API_URL}/recipes/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;

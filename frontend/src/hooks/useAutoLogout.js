@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const useAutoLogout = (timeout = 100000) => {
+const useAutoLogout = (timeout = 3600000) => {
   const { logout } = useAuth(); // Access logout from AuthContext
   const navigate = useNavigate();
   const logoutTimer = useRef(); // Use useRef to persist the timer

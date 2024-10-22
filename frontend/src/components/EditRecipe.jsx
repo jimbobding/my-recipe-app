@@ -44,8 +44,12 @@ function EditRecipe() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await handleEdit(id);
-    navigate("/recipes"); // Redirect to recipe list page after edit
+    try {
+      await handleEdit(id); // Ensure this handles the form data correctly
+      navigate("/recipes"); // Redirect to recipe list page after edit
+    } catch (error) {
+      console.error("Error updating recipe:", error);
+    }
   };
 
   if (loading) return <p>Loading...</p>;

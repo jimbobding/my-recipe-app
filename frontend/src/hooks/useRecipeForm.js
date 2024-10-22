@@ -50,8 +50,11 @@ function useRecipeForm(userId) {
       formData.append("image", image);
     }
 
+    const token = localStorage.getItem("token");
+    console.log("Token:", token);
+
     try {
-      const updatedRecipe = await updateRecipe(id, formData);
+      const updatedRecipe = await updateRecipe(id, formData, token);
       setRecipes(
         recipes.map((recipe) => (recipe.id === id ? updatedRecipe : recipe))
       );

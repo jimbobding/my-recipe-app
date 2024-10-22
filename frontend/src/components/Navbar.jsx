@@ -10,15 +10,13 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="logo">
-        <Link to="/">My Recipes App</Link>
+        <Link to="/">Jimmy's Recipe Bizzzoookkk</Link>
       </div>
       <ul className="nav-links">
         <li>
           <Link to="/recipes">Recipes</Link>
         </li>
-        <li>
-          <Link to="/add-recipe">Add Recipe</Link>
-        </li>
+
         {!isLoggedIn && (
           <>
             <li>
@@ -31,7 +29,11 @@ function Navbar() {
         )}
         {isLoggedIn && (
           <li>
+            <li>
+              <Link to="/add-recipe">Add Recipe</Link>
+            </li>
             <button
+              className="logout-button"
               onClick={() => {
                 logout(); // Call logout from context
               }}

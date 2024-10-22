@@ -59,7 +59,7 @@ const HomePage = () => {
             {recipes.map((recipe) => (
               <div key={recipe.id} className="recipe-list-recipe">
                 {recipe.image_url && (
-                  <div className="recipe-list-item">
+                  <div className="recipe-list-img">
                     <h3>Image</h3>
                     <img
                       src={`http://localhost:3002${recipe.image_url}`}
@@ -93,7 +93,7 @@ const HomePage = () => {
                   </Link>
                   <button
                     onClick={() => handleDelete(recipe.id)}
-                    className="recipe-button"
+                    className="recipe-button delete-button"
                   >
                     Delete
                   </button>
