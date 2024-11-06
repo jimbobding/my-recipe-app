@@ -28,19 +28,21 @@ function Navbar() {
           </>
         )}
         {isLoggedIn && (
-          <li>
+          <ul>
             <li>
               <Link to="/add-recipe">Add Recipe</Link>
             </li>
-            <button
-              className="logout-button"
-              onClick={() => {
-                logout(); // Call logout from context
-              }}
-            >
-              Logout
-            </button>
-          </li>
+            <li>
+              <button
+                className="logout-button"
+                onClick={() => {
+                  logout(); // Call logout from context
+                }}
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
         )}
       </ul>
     </nav>

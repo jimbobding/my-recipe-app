@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getRecipeById } from "../services/api";
 import "../styles/components/_recipeDetail.scss";
 
@@ -59,6 +59,9 @@ function RecipeDetail() {
             {recipe.instructions.split("\n").map((line, index) => (
               <p key={index}>{line}</p> // Each instruction on a new line
             ))}
+          </div>
+          <div className="back-btn">
+            <Link to="/recipes">Back to recipes</Link>
           </div>
         </div>
       </div>

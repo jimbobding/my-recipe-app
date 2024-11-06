@@ -1,66 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-
 import { getRecipesByUserId } from "../services/api";
 import useRecipeForm from "../hooks/useRecipeForm";
 import { Link } from "react-router-dom";
+import "../styles/components/_profilePage.scss";
 
 const HomePage = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user: authUser } = useAuth(); // Get user directly from AuthContext
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Manage loading state
   const defaultImageUrl = "/defaultProfilePic/smiley.jpeg";
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    console.log("Stored user from localStorage:", storedUser);
-
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      console.log("Parsed user object:", parsedUser);
-      setUser(parsedUser);
-    }
-  }, [isLoggedIn]);
 
   const { recipes, setRecipes, handleDelete } = useRecipeForm();
 
+  // Load user from AuthContext and stop loading when user is set
+  useEffect(() => {
+    if (isLoggedIn && authUser) {
+      setUser(authUser);
+      setLoading(false); // Only set loading to false once the user is fetched
+    }
+  }, [isLoggedIn, authUser]);
+
   useEffect(() => {
     const fetchUserRecipes = async () => {
-      try {
-        // Ensure the user is logged in and has an ID
-        if (user && user.id) {
-          const data = await getRecipesByUserId(user.id); // Fetch recipes by the user's ID
+      if (user && user.id) {
+        try {
+          const data = await getRecipesByUserId(user.id);
           setRecipes(data);
           console.log("Fetched Recipes Data for User:", data);
+        } catch (error) {
+          console.error("Error fetching user recipes:", error);
         }
-      } catch (error) {
-        console.error("Error fetching user recipes:", error);
       }
     };
 
     fetchUserRecipes();
   }, [user, setRecipes]);
 
-  // Use the image URL from the user object or fall back to a default image
-
   const imageUrl = user?.image_url || defaultImageUrl;
+
+  if (loading) {
+    return <p>Loading...</p>; // Show a loading message or spinner
+  }
+
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
+    <div className="homepage-container">
+      <div class="clamped-text"></div>
+      {user && <h1>Hello {user.username}</h1>}
       {isLoggedIn && user ? (
         <>
-          <p>Welcome back, {user.username}!</p>
-          <p>Weight: {user.weight}</p>
           <img
+            className="user-avtar"
             src={imageUrl}
             alt={`${user.username}'s avatar`}
             style={{ width: "150px", height: "150px", borderRadius: "50%" }}
           />
+          <h2>{user.username}'s Recipes</h2>
           <div className="recipe-list-container">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="recipe-list-recipe">
                 {recipe.image_url && (
                   <div className="recipe-list-img">
-                    <h3>Image</h3>
                     <img
                       src={`http://localhost:3002${recipe.image_url}`}
                       alt={recipe.title}
@@ -69,20 +69,16 @@ const HomePage = () => {
                   </div>
                 )}
                 <div className="recipe-list-item">
-                  <h3>Title</h3>
-                  {recipe.title}
-                </div>
-                <div className="recipe-list-item">
                   <h3>Ingredients</h3>
-                  {recipe.ingredients}
+                  <p>{recipe.ingredients}</p>
                 </div>
                 <div className="recipe-list-item">
                   <h3>Instructions</h3>
-                  {recipe.instructions}
+                  <p>{recipe.instructions}</p>
                 </div>
                 <div className="recipe-list-item">
                   <h3>Description</h3>
-                  {recipe.description}
+                  <p>{recipe.description}</p>
                 </div>
                 <div className="recipe-actions">
                   <Link to={`/edit-recipe/${recipe.id}`}>

@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/global.scss";
 import { Route, Routes } from "react-router-dom"; // No BrowserRouter here
 import HomePage from "./pages/HomePage";
 import AddRecipePage from "./pages/AddRecipesPage";
