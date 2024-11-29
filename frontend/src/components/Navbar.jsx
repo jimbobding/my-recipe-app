@@ -16,6 +16,9 @@ function Navbar() {
         <li>
           <Link to="/recipes">Recipes</Link>
         </li>
+        <li>
+          <Link to="/unit-converter">Converter</Link>
+        </li>
 
         {!isLoggedIn && (
           <>

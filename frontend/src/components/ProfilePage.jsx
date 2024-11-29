@@ -5,7 +5,7 @@ import useRecipeForm from "../hooks/useRecipeForm";
 import { Link } from "react-router-dom";
 import "../styles/components/_profilePage.scss";
 
-const HomePage = () => {
+const ProfilePage = () => {
   const { isLoggedIn, user: authUser } = useAuth(); // Get user directly from AuthContext
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Manage loading state
@@ -55,7 +55,7 @@ const HomePage = () => {
             alt={`${user.username}'s avatar`}
             style={{ width: "150px", height: "150px", borderRadius: "50%" }}
           />
-          <h2>{user.username}'s Recipes</h2>
+          <h2>{user.username}'s Profile</h2>
           <div className="recipe-list-container">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="recipe-list-recipe">
@@ -105,4 +105,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ProfilePage;

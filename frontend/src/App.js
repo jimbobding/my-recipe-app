@@ -1,6 +1,6 @@
 import "./styles/global.scss";
 import { Route, Routes } from "react-router-dom"; // No BrowserRouter here
-import HomePage from "./pages/HomePage";
+import ProfilePage from "./components/ProfilePage";
 import AddRecipePage from "./pages/AddRecipesPage";
 import RecipeListPage from "./pages/RecipeListPage";
 import EditRecipePage from "./pages/EditRecipePage";
@@ -8,6 +8,7 @@ import RecipeDetail from "./components/RecipeDetail";
 import Navbar from "./components/Navbar";
 import UserForm from "./components/UserForm";
 import LoginForm from "./components/LoginForm";
+import UnitConverter from "./components/UnitConverter";
 // import { useAuth } from "./context/AuthContext";
 import useAutoLogout from "./hooks/useAutoLogout";
 
@@ -21,7 +22,7 @@ function App() {
     <div className="app-container">
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<ProfilePage />} />
         <Route path="/add-recipe" element={<AddRecipePage />} />
         <Route path="/recipes" element={<RecipeListPage />} />
         <Route path="/edit-recipe/:id" element={<EditRecipePage />} />
@@ -29,6 +30,7 @@ function App() {
         <Route path="/add-user" element={<UserForm />} />
         <Route path="/login" element={<LoginForm />} />\{" "}
         <Route path="/register" element={<UserForm />} />
+        <Route path="/unit-converter" element={<UnitConverter />} />
       </Routes>
     </div>
   );
