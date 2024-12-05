@@ -7,18 +7,26 @@ const lengthSlice = createSlice({
     conversionRates: {
       metersToKilometers: {
         convert: (meters) => meters / 1000,
+        fromUnitName: "Meter",
+        toUnitName: "Kilometer",
         name: "Meters to Kilometers",
       },
       kilometersToMeters: {
         convert: (kilometers) => kilometers * 1000,
+        fromUnitName: "Kilometer",
+        toUnitName: "Meter",
         name: "Kilometers to Meters",
       },
       milesToKilometers: {
         convert: (miles) => miles * 1.60934,
+        fromUnitName: "Mile",
+        toUnitName: "Kilometer",
         name: "Miles to Kilometers",
       },
       kilometersToMiles: {
         convert: (kilometers) => kilometers / 1.60934,
+        fromUnitName: "Kilometer",
+        toUnitName: "Mile",
         name: "Kilometers to Miles",
       },
     },

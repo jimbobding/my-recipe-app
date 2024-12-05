@@ -83,7 +83,8 @@ const ConversionPage = () => {
             <span> {volumeFromUnitName}</span>
             {volumeConvertedValue !== null && (
               <h3>
-                Converted Value: {volumeConvertedValue} {volumeToUnitName}
+                Converted Value: {volumeConvertedValue.toFixed(2)}{" "}
+                {volumeToUnitName}
               </h3>
             )}
           </div>
@@ -191,7 +192,7 @@ const ConversionPage = () => {
             <span> {lengthFromUnitName}</span>
             {lengthConvertedValue !== null && (
               <h3>
-                Converted Value: {lengthConvertedValue} {lengthToUnitName}
+                Converted Value: {lengthConvertedValue} {lengthToUnitName}{" "}
               </h3>
             )}
           </div>
