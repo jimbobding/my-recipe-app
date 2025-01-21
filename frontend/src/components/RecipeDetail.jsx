@@ -40,6 +40,12 @@ function RecipeDetail() {
             </p>
             <p>{recipe.description}</p>
           </div>
+          <div className="recipe-description">
+            <p>
+              <strong>Calories:</strong>
+            </p>
+            <p>{recipe.calories}</p>
+          </div>
 
           {/* Displaying ingredients with line breaks */}
           <div className="recipe-ingredients">

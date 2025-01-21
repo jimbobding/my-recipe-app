@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import {
-  getAllRecipes,
   addRecipe,
   updateRecipe,
   deleteRecipe,
@@ -14,6 +13,10 @@ function useRecipeForm(userId) {
   const [instructions, setInstructions] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [calories, setCalories] = useState("");
+  const [prepTime, setPrepTime] = useState("");
+  const [cookTime, setCookTime] = useState("");
+  const [category, setCategory] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [recipes, setRecipes] = useState([]);
 
@@ -24,6 +27,11 @@ function useRecipeForm(userId) {
       formData.append("ingredients", ingredients);
       formData.append("instructions", instructions);
       formData.append("description", description);
+      formData.append("calories", calories);
+      formData.append("prep_time", prepTime);
+      formData.append("cook_time", cookTime);
+      formData.append("category", category);
+
       if (image) {
         formData.append("image", image);
       }
@@ -46,6 +54,10 @@ function useRecipeForm(userId) {
     formData.append("ingredients", ingredients);
     formData.append("instructions", instructions);
     formData.append("description", description);
+    formData.append("calories", calories);
+    formData.append("prep_time", prepTime);
+    formData.append("cook_time", cookTime);
+    formData.append("category", category);
     if (image) {
       formData.append("image", image);
     }
@@ -83,6 +95,10 @@ function useRecipeForm(userId) {
       setInstructions(recipe.instructions);
       setDescription(recipe.description);
       setImageUrl(recipe.imageUrl);
+      setCalories(recipe.calories);
+      setPrepTime(recipe.prepTime);
+      setCookTime(recipe.cookTime);
+      setCategory(recipe.category);
     } catch (error) {
       console.error("Error fetching recipe:", error);
     }
@@ -94,6 +110,10 @@ function useRecipeForm(userId) {
     instructions,
     description,
     image,
+    calories,
+    prepTime,
+    cookTime,
+    category,
     imageUrl,
     recipes,
     setTitle,
@@ -101,6 +121,10 @@ function useRecipeForm(userId) {
     setInstructions,
     setDescription,
     setImage,
+    setCalories,
+    setPrepTime,
+    setCookTime,
+    setCategory,
     setRecipes,
     handleSubmit,
     handleEdit,

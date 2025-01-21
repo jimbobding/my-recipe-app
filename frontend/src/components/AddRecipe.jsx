@@ -14,10 +14,18 @@ function AddRecipe() {
     ingredients,
     instructions,
     description,
+    calories,
+    prepTime,
+    cookTime,
+    category,
     setTitle,
     setIngredients,
     setInstructions,
     setDescription,
+    setCalories,
+    setPrepTime,
+    setCookTime,
+    setCategory,
     handleSubmit,
     setImage,
   } = useRecipeForm(userId); // Pass userId to the hook
@@ -46,6 +54,10 @@ function AddRecipe() {
       setInstructions("");
       setDescription("");
       setImage(null);
+      setCalories("");
+      setPrepTime("");
+      setCookTime("");
+      setCategory("");
 
       // Show success message and navigate after a delay
       setMessage("Recipe added successfully!");
@@ -59,6 +71,7 @@ function AddRecipe() {
       setError(true);
       setMessage("Failed to add the recipe. Please try again.");
       setLoading(false);
+      console.log(calories);
     }
   };
 
@@ -91,7 +104,6 @@ function AddRecipe() {
             value={instructions}
             onChange={(event) => setInstructions(event.target.value)}
             placeholder="Enter instructions separated by commas"
-            required // Ensure instructions are required
           />
         </div>
         <div className="input-container">
@@ -100,21 +112,97 @@ function AddRecipe() {
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Enter a description"
-            required // Ensure description is required
+            className="styled-input"
           />
         </div>
         <div className="input-container">
-          <h3>Image</h3>
-          <label className="add-recipe__file-label" htmlFor="file-input">
-            Choose File
-          </label>
+          <h3>Calories</h3>
           <input
-            id="file-input"
-            type="file"
-            accept="image/*"
-            className="add-recipe__file-input"
-            onChange={handleImageChange}
-            name="recipeImage"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={calories}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (/^\d*$/.test(value)) {
+                // Allow only numbers
+                setCalories(value);
+              }
+            }}
+            placeholder="Enter calories"
+            className="styled-input"
+          />
+        </div>
+        {/* <div className="input-container">
+          <h3>Servings</h3>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={servings}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (/^\d*$/.test(value)) {
+                // Allow only numbers
+                setServings(value);
+              }
+            }}
+            placeholder="Enter amount of servings per recipe (optional)"
+            className="styled-input"
+          />
+        </div> */}
+        <div className="input-container">
+          <h3>Prep-time</h3>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={prepTime}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (/^\d*$/.test(value)) {
+                // Allow only numbers
+                setPrepTime(value);
+              }
+            }}
+            placeholder="Enter prep-time (optional)"
+            className="styled-input"
+          />
+        </div>
+        <div className="input-container">
+          <h3>Cook-time</h3>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={cookTime}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (/^\d*$/.test(value)) {
+                // Allow only numbers
+                setCookTime(value);
+              }
+            }}
+            placeholder="Enter cook-time (optional)"
+            className="styled-input"
+          />
+        </div>
+        <div className="input-container">
+          <h3>Category</h3>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={category}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (/^\d*$/.test(value)) {
+                // Allow only numbers
+                setCategory(value);
+              }
+            }}
+            placeholder="Choose a category"
+            className="styled-input"
           />
         </div>
 

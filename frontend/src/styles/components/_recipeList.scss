@@ -113,3 +113,32 @@
     }
   }
 }
+
+.recipe-list-item .details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 1rem; /* Space between grid items */
+}
+
+.details-grid div {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center text horizontally */
+  justify-content: center; /* Center text vertically */
+  padding: 1rem;
+  border: 1px solid #ddd; /* Optional: Border around each item */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: #f9f9f9; /* Optional: Background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
+}
+
+.details-grid h4 {
+  margin: 0 0 0.5rem; /* Smaller margin for the heading */
+  font-size: 1rem; /* Adjust font size for better readability */
+}
+
+.details-grid p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555; /* Optional: Softer text color */
+}

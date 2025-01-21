@@ -92,6 +92,40 @@ function RecipeList() {
               <h3>Description</h3>
               <p>{recipe.description}</p>
             </div>
+            <div className="recipe-list-item">
+              {/* <h3>Details</h3> */}
+              {(recipe.calories > 0 ||
+                recipe.prep_time > 0 ||
+                recipe.servings > 0 ||
+                recipe.cook_time > 0) && (
+                <div className="details-grid">
+                  {recipe.calories > 0 && (
+                    <div>
+                      <h4>Calories</h4>
+                      <p>{recipe.calories}</p>
+                    </div>
+                  )}
+                  {recipe.prep_time > 0 && (
+                    <div>
+                      <h4>Prep Time</h4>
+                      <p>{recipe.prep_time} minutes</p>
+                    </div>
+                  )}
+                  {recipe.servings > 0 && (
+                    <div>
+                      <h4>Servings</h4>
+                      <p>{recipe.servings}</p>
+                    </div>
+                  )}
+                  {recipe.cook_time > 0 && (
+                    <div>
+                      <h4>Cook Time</h4>
+                      <p>{recipe.cook_time} minutes</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div className="posted-by">
               {(() => {
