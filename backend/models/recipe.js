@@ -13,19 +13,41 @@ const getRecipesByUserId = (userId, callback) => {
 };
 
 const createRecipe = (recipeData, callback) => {
-  const { title, description, ingredients, instructions, image_url, userId } =
-    recipeData;
+  const {
+    title,
+    description,
+    ingredients,
+    instructions,
+    calories,
+    prep_time,
+    cook_time,
+    category,
+    image_url,
+    servings = 0, // Default to 1 if servings is not provided
+    userId,
+  } = recipeData;
 
-  // Log the recipe data before executing the query
   console.log("Creating recipe with data:", recipeData);
 
   const query = `
-    INSERT INTO recipes (title, description, ingredients, instructions, image_url, user_id) 
-    VALUES (?, ?, ?, ?, ?, ?)`;
+    INSERT INTO recipes (title, description, ingredients, instructions, calories, prep_time, cook_time, category, image_url, servings, user_id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   db.query(
     query,
-    [title, description, ingredients, instructions, image_url, userId],
+    [
+      title,
+      description,
+      ingredients,
+      instructions,
+      calories,
+      prep_time,
+      cook_time,
+      category,
+      image_url,
+      servings,
+      userId,
+    ],
     (err, results) => {
       if (err) {
         console.error("Database error:", err);
@@ -37,11 +59,29 @@ const createRecipe = (recipeData, callback) => {
 };
 
 const updateRecipe = (id, recipeData, callback) => {
-  const { title, description, ingredients, instructions, image_url } =
-    recipeData;
+  const {
+    title,
+    description,
+    ingredients,
+    instructions,
+    calories,
+    prep_time,
+    cook_time,
+    category,
+    image_url,
+  } = recipeData;
   let query =
-    "UPDATE recipes SET title = ?, description = ?, ingredients = ?, instructions = ?";
-  const values = [title, description, ingredients, instructions];
+    "UPDATE recipes SET title = ?, description = ?, ingredients = ?, instructions = ?, calories = ?, prep_time = ?, cook_time = ?, category = ?";
+  const values = [
+    title,
+    description,
+    ingredients,
+    instructions,
+    calories,
+    prep_time,
+    cook_time,
+    category,
+  ];
 
   if (image_url) {
     query += ", image_url = ?";

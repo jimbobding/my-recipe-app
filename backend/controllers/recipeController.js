@@ -62,7 +62,17 @@ exports.getRecipesByUserId = (req, res) => {
 };
 
 exports.createRecipe = (req, res) => {
-  const { title, description, ingredients, instructions } = req.body;
+  const {
+    title,
+    description,
+    ingredients,
+    instructions,
+    calories,
+    prep_time,
+    cook_time,
+    servings,
+    category,
+  } = req.body;
 
   const image_url = req.file
     ? req.file.path.replace(
@@ -73,17 +83,24 @@ exports.createRecipe = (req, res) => {
 
   const userId = req.user ? req.user.id : null;
 
-  // Debugging
-  console.log("User ID:", userId); // This should show the logged-in user ID
-
+  // Validate and sanitize inputs
   const recipeData = {
-    title,
-    description,
-    ingredients,
-    instructions,
+    title: title || "Untitled",
+    description: description || "",
+    ingredients: ingredients || "",
+    instructions: instructions || "",
+    calories: parseInt(calories, 10) || 0, // Convert to number
+    prep_time: parseInt(prep_time, 10) || 0,
+    cook_time: parseInt(cook_time, 10) || 0,
+    servings: parseInt(servings, 10) || 0,
+    category: category || "Uncategorized",
     image_url,
-    userId, // Make sure user_id is set correctly
+    userId,
   };
+
+  if (!userId) {
+    return res.status(400).send("User ID is required.");
+  }
 
   recipeModel.createRecipe(recipeData, (err, result) => {
     if (err) {
@@ -100,25 +117,52 @@ exports.createRecipe = (req, res) => {
 
 exports.updateRecipe = (req, res) => {
   const id = req.params.id;
-  const { title, description, ingredients, instructions } = req.body;
-  const image_url = req.file
-    ? req.file.path.replace(
-        "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
-        "/uploads"
-      )
-    : null;
 
-  const recipeData = {
+  console.log("Incoming Recipe ID:", id); // Log ID
+  console.log("Request Body:", req.body); // Log raw request body
+
+  const {
     title,
     description,
     ingredients,
     instructions,
-    image_url,
+    calories,
+    prep_time,
+    cook_time,
+    servings,
+    category,
+  } = req.body;
+
+  // Sanitize and validate input
+  const sanitizedCalories = parseInt(calories, 10) || 0;
+  const sanitizedPrepTime = parseInt(prep_time, 10) || 0;
+  const sanitizedCookTime = parseInt(cook_time, 10) || 0;
+  const sanitizedServings = parseInt(servings, 10) || 0;
+
+  const sanitizedRecipeData = {
+    title: title || "Untitled",
+    description: description || "",
+    ingredients: ingredients || "",
+    instructions: instructions || "",
+    image_url: req.file
+      ? req.file.path.replace(
+          "/Users/jamesdavid/Desktop/my-recipe-app/backend/uploads",
+          "/uploads"
+        )
+      : null,
+    calories: sanitizedCalories,
+    prep_time: sanitizedPrepTime,
+    cook_time: sanitizedCookTime,
+    servings: sanitizedServings,
+    category: category || "Uncategorized",
   };
 
-  recipeModel.updateRecipe(id, recipeData, (err) => {
+  console.log("Sanitized Recipe Data:", sanitizedRecipeData); // Log sanitized data
+
+  // Call the model function with validated data
+  recipeModel.updateRecipe(id, sanitizedRecipeData, (err) => {
     if (err) {
-      console.error("Error updating recipe:", err);
+      console.error("Error updating recipe:", err); // Log full error
       return res.status(500).send("Error updating recipe");
     }
     res.status(200).json({ message: "Recipe updated successfully" });
