@@ -12,6 +12,7 @@ function useRecipeForm(userId) {
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
   const [description, setDescription] = useState("");
+
   const [image, setImage] = useState(null);
   const [calories, setCalories] = useState("");
   const [prepTime, setPrepTime] = useState("");

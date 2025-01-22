@@ -14,11 +14,19 @@ function EditRecipe() {
     ingredients,
     instructions,
     description,
-    image,
+    calories,
+    prepTime,
+    cookTime,
+    category,
     setTitle,
     setIngredients,
     setInstructions,
     setDescription,
+    setCalories,
+    setPrepTime,
+    setCookTime,
+    setCategory,
+
     setImage,
     handleEdit,
   } = useRecipeForm();
@@ -31,6 +39,9 @@ function EditRecipe() {
         setIngredients(recipe.ingredients);
         setInstructions(recipe.instructions);
         setDescription(recipe.description);
+        setCalories(recipe.calories);
+        setCookTime(recipe.cook_time);
+        setPrepTime(recipe.prep_time);
         setImage(null); // Initialize image state to null
         setLoading(false);
       } catch (error) {
@@ -40,7 +51,17 @@ function EditRecipe() {
     };
 
     fetchRecipe();
-  }, [id, setTitle, setIngredients, setInstructions, setDescription, setImage]);
+  }, [
+    id,
+    setTitle,
+    setIngredients,
+    setInstructions,
+    setDescription,
+    setCalories,
+    setCookTime,
+    setPrepTime,
+    setImage,
+  ]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -71,22 +92,38 @@ function EditRecipe() {
           onChange={(e) => setIngredients(e.target.value)}
           className="edit-recipe-textarea"
           placeholder="Ingredients"
-          required
         />
         <textarea
           value={instructions}
           onChange={(e) => setInstructions(e.target.value)}
           className="edit-recipe-textarea"
           placeholder="Instructions"
-          required
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="edit-recipe-textarea"
           placeholder="Description"
-          required
         />
+        <textarea
+          value={calories}
+          onChange={(e) => setCalories(parseInt(e.target.value) || 0)}
+          className="edit-recipe-textarea"
+          placeholder="Calories"
+        />
+        <textarea
+          value={prepTime}
+          onChange={(e) => setPrepTime(parseInt(e.target.value) || 0)}
+          className="edit-recipe-textarea"
+          placeholder="Prep Time"
+        />
+        <textarea
+          value={cookTime}
+          onChange={(e) => setCookTime(parseInt(e.target.value) || 0)}
+          className="edit-recipe-textarea"
+          placeholder="Cook Time"
+        />
+
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}

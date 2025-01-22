@@ -18,7 +18,6 @@ function RecipeList() {
       try {
         const data = await getAllRecipes();
         setRecipes(data);
-        console.log("Fetched Recipes Data:", data);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
@@ -44,8 +43,6 @@ function RecipeList() {
     const user = users.find((user) => String(user.id) === String(recipeUserId));
 
     if (user) {
-      console.log(`User found for recipe ${recipeUserId}:`, user); // Log user data for inspection
-
       // Check for `null`, `undefined`, or empty string on `image_url`
       const fullImageUrl = user.image_url
         ? `http://localhost:3002/uploads/${encodeURI(user.image_url)}`
@@ -92,12 +89,13 @@ function RecipeList() {
               <h3>Description</h3>
               <p>{recipe.description}</p>
             </div>
-            <div className="recipe-list-item">
-              {/* <h3>Details</h3> */}
-              {(recipe.calories > 0 ||
-                recipe.prep_time > 0 ||
-                recipe.servings > 0 ||
-                recipe.cook_time > 0) && (
+            {(recipe.calories > 0 ||
+              recipe.prep_time > 0 ||
+              recipe.servings > 0 ||
+              recipe.cook_time > 0) && (
+              <div className="recipe-list-item">
+                {/* <h3>Details</h3> */}
+
                 <div className="details-grid">
                   {recipe.calories > 0 && (
                     <div>
@@ -124,13 +122,12 @@ function RecipeList() {
                     </div>
                   )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             <div className="posted-by">
               {(() => {
                 const recipeUser = getUserForRecipe(recipe.user_id);
-                console.log("Recipe User object:", recipeUser);
 
                 return (
                   <>
