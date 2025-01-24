@@ -1,0 +1,41 @@
+@import "../variables";
+@import "sharedStyles";
+
+.navbar {
+  background-color: #02385a;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #a6432c;
+}
+
+.nav-links {
+  list-style-type: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 20px;
+  list-style-type: none;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links li a:hover {
+  color: #a6432c;
+}
+.logout-button {
+  @extend .button;
+}

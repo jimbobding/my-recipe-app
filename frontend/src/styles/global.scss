@@ -1,0 +1,9 @@
+@import "_variables"; // Import your SCSS variables
+
+body {
+  font-family: $font-primary; // Use the primary font
+  margin: 0; // Reset margins
+  padding: 0; // Reset padding
+  background-color: #f0f0f0; // Example background color
+  color: #333; // Default text color
+}
