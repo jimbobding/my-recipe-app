@@ -1,13 +1,19 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for the recipe app",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "backend",
+    "recipe",
+    "express",
+    "mysql"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
