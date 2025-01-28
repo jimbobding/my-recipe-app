@@ -29,7 +29,7 @@ exports.signIn = async (req, res) => {
       const user = results[0];
 
       // Compare the provided password with the hashed password
-      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+      const isPasswordCorrect = await bcryptjs.compare(password, user.password);
       if (!isPasswordCorrect) {
         console.log("Invalid password");
         return res.status(401).send("Invalid password");
