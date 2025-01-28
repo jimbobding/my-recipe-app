@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npm rebuild bcryptjs --build-from-source"
+    "postinstall": "npm install"
   },
   "keywords": [
     "backend",
