@@ -1,6 +1,6 @@
 const usersModel = require("../models/users");
 const path = require("path");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { host } = require("pg/lib/defaults");
 const JWT_SECRET = process.env.JWT_SECRET;
