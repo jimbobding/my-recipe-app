@@ -11,10 +11,11 @@ console.log("Environment:", process.env.NODE_ENV);
 export const getAllRecipes = async () => {
   try {
     const response = await axios.get(`${API_URL}/recipes`);
+    if (!response.data) throw new Error("Empty response from server");
     return response.data;
   } catch (error) {
     console.error("Error fetching recipes:", error);
-    throw error;
+    return []; // Return an empty array to prevent frontend crashes
   }
 };
 
