@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
 
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
+
 const app = express();
 const recipeRouter = require("./routes/recipes");
 const userRouter = require("./routes/users");
