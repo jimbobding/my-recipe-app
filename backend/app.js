@@ -1,3 +1,13 @@
+const dotenv = require("dotenv");
+const path = require("path");
+
+// Load environment variables based on the current environment
+if (process.env.NODE_ENV === "production") {
+  dotenv.config({ path: path.resolve(__dirname, ".env.production") });
+} else {
+  dotenv.config({ path: path.resolve(__dirname, ".env") });
+}
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
