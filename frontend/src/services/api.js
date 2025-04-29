@@ -6,8 +6,10 @@ export const API_URL =
 
 console.log("Current API URL:", API_URL);
 console.log("Environment:", process.env.NODE_ENV);
+console.log("API URL from .env:", process.env.REACT_APP_API_URL);
 
 // Function to get all recipes
+
 export const getAllRecipes = async () => {
   try {
     const response = await axios.get(`${API_URL}/recipes`);
